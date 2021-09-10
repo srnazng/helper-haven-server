@@ -1,6 +1,9 @@
 # JANJ-Activity-Tracker-Server
 The backend was made with [Django](https://www.djangoproject.com/)
 
+# Deployment
+https://helper-haven-server.herokuapp.com/
+
 # Setting up the backend
 - Ensure you have python3 installed on your machine
 - Set up python virtual environment
