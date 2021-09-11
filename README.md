@@ -2,7 +2,7 @@
 The backend was made with [Django](https://www.djangoproject.com/)
 
 # Deployment
-https://helper-haven-server.herokuapp.com/
+https://helper-haven-backend.herokuapp.com/
 
 # Setting up the backend
 - Ensure you have python3 installed on your machine
