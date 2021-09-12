@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import RegisterView, LogView, EventView, ProfileView
+from core.views import RegisterView, LogView, EventView, AccountView, VolunteerView
 from rest_framework.authtoken.views import obtain_auth_token
 from core import views
 
@@ -27,7 +27,9 @@ urlpatterns = [
     path('log/add/', LogView.as_view(), name='log'),
     path('log/all/', LogView.getAll, name='logall'),
     path('log/<str:user_email>/', LogView.getByUserEmail, name='logbyuseremail'),
-    path('profile/<str:user_email>/', ProfileView.profile, name='profile'),
-    path('edit-profile/<str:user_email>/', ProfileView.as_view(), name='profile'),
+    path('account/<str:user_email>/', AccountView.account, name='account'),
+    path('edit-account/<str:user_email>/', AccountView.as_view(), name='account'),
+    path('volunteer/<str:user_email>/', VolunteerView.profile, name='volunteer'),
+    path('edit-volunteer/<str:user_email>/', VolunteerView.as_view(), name='volunteer'),
     path('events/', EventView.as_view(), name='events')
 ]

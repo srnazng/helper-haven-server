@@ -26,10 +26,8 @@ The backend must be running in order to access it through the API endpoints
 <br>
 ```
 {
-    "first_name": "< user first name >",
-    "last_name": "< user last name >",
-    "role": "< VOLUNTEER or ORGANIZATION >",
     "email": "< user email >",
+    "role": "< VOLUNTEER or ORGANIZATION >",
     "username": "< same as email >",
     "password": "< user password  >",
     "password2": "< user password (same as other password field) >"
@@ -64,8 +62,7 @@ Returns the profile of the user:
 <br>
 ```
 {
-    "first_name": "< user first name >",
-    "last_name": "< user last name >",
+    "id": "< user id >",
     "role": "< VOLUNTEER or ORGANIZATION >",
     "email": "< user email >"
 }
@@ -79,6 +76,41 @@ edit-profile/< email >/
 <br>
 <br>
 Edits existing user profile (body includes any fields to be modified)
+
+<h3>
+volunteer/< email >/
+</h3>
+
+[GET] 
+<br>
+<br>
+Returns the volunteer profile of the user:
+<br>
+```
+{
+    "first_name": "< first name of volunteer >",
+    "last_name": "< last name of volunteer >",
+    "email": "< volunteer email (relate to account) >",
+    "gender": "< volunteer gender >",
+    "dob": "< YYYY-MM-DD >",
+    "address": "< volunteer address >",
+    "city": "< volunteer city >",
+    "state": "< volunteer state >",
+    "zip": "< volunteer zip code >",
+    "skills": "< list of skills and corresponding levels >",
+    "link": "< social media links >"
+}
+```
+
+<h3>
+edit-volunteer/< email >/
+</h3>
+
+[PATCH] 
+<br>
+<br>
+Edits existing volunteer profile (body includes any fields to be modified)
+
 
 <h3>
 /log/add/

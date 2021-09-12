@@ -53,8 +53,6 @@ class MyAccountManager(BaseUserManager):
 		return user
 
 class Account(AbstractBaseUser):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=60, unique=True)
     role = models.CharField(max_length=255)
@@ -91,3 +89,16 @@ class Log(models.Model):
 	role = models.CharField(max_length=1000, blank=True)
 	hours = models.PositiveIntegerField(default=0)
 	comments = models.CharField(max_length=100, blank=True)
+
+class Volunteer(models.Model):
+	email = models.CharField(max_length=255, default="", blank=True)
+	first_name = models.CharField(max_length=255, default="", blank=True)
+	last_name = models.CharField(max_length=255, default="", blank=True)
+	gender = models.CharField(max_length=10, default="", blank=True)
+	dob = models.DateField(null=True , blank=True)
+	address = models.CharField(max_length=255, default="", blank=True)
+	city = models.CharField(max_length=255, default="", blank=True)
+	state = models.CharField(max_length=255, default="", blank=True)
+	zip = models.CharField(max_length=255, default="", blank=True)
+	skills = models.CharField(max_length=1000, default="", blank=True)
+	link = models.URLField(max_length=255, default="", blank=True)

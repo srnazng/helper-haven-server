@@ -1,38 +1,43 @@
 # third party imports
+from functools import partial
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action, api_view
-from .serializers import RegistrationSerializer, LogSerializer, EventSerializer
-from .models import Account, Log, Event
+from .serializers import RegistrationSerializer, LogSerializer, EventSerializer, VolunteerSerializer
+from .models import Account, Log, Event, Volunteer
 from rest_framework.authtoken.models import Token
 from django.db.models import F, Sum
 
 class RegisterView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = RegistrationSerializer(data=request.data)
+        account_serializer = RegistrationSerializer(data=request.data)
         data = {}
-        if serializer.is_valid():
-            account = serializer.save()
+        if account_serializer.is_valid():
+            account = account_serializer.save()
             data['response'] = "Successfully registered new user."
-            data['first_name'] = account.first_name
-            data['last_name'] = account.last_name
             data['username'] = account.username
             data['role'] = account.role
             data['email'] = account.email
             data['token'] = Token.objects.get(user=account).key
-            return Response(data)
-        return Response(serializer.errors)
 
-class ProfileView(APIView):
+            if account.role == "VOLUNTEER":
+                body = {}
+                body['email'] = account.email
+                volunteer_serializer = VolunteerSerializer(data=body)
+                if volunteer_serializer.is_valid():
+                    volunteer_serializer.save()
+            return Response(data)
+        return Response(account_serializer.errors)
+
+class AccountView(APIView):
     @api_view(('GET', 'PATCH'))
-    def profile(request, user_email):
+    def account(request, user_email):
         qs = Account.objects.filter(email = user_email)
         data = {}
         if len(qs) > 0:
             account = qs[0]
-            data['first_name'] = account.first_name
-            data['last_name'] = account.last_name
+            data['id'] = account.id
             data['role'] = account.role
             data['email'] = account.email
             return Response(data)
@@ -46,10 +51,53 @@ class ProfileView(APIView):
         data = {}
         if serializer.is_valid():
             serializer.update(account, request.data)
-            data['first_name'] = account.first_name
-            data['last_name'] = account.last_name
-            data['role'] = account.role
             data['email'] = user_email
+            data['role'] = account.role
+            return Response(data)
+        data['response'] = "Wrong parameters."
+        return Response(data)
+
+class VolunteerView(APIView):
+    @api_view(('GET', 'PATCH'))
+    def profile(request, user_email):
+        qs = Volunteer.objects.filter(email = user_email)
+        data = {}
+        if len(qs) > 0:
+            volunteer = qs[0]
+            data['first_name'] = volunteer.first_name
+            data['last_name'] = volunteer.last_name
+            data['email'] = volunteer.email
+            data['gender'] = volunteer.gender
+            data['dob'] = volunteer.dob
+            data['address'] = volunteer.address
+            data['city'] = volunteer.city
+            data['state'] = volunteer.state
+            data['zip'] = volunteer.zip
+            data['skills'] = volunteer.skills
+            data['link'] = volunteer.link
+            return Response(data)
+        else:
+            data['response'] = "Failed to fetch volunteer profile."
+            return Response(data)
+
+    def patch(self, request, user_email):
+        volunteer = Volunteer.objects.get(email=user_email)
+        serializer = VolunteerSerializer(volunteer, data=request.data, partial=True)
+
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['first_name'] = volunteer.first_name
+            data['last_name'] = volunteer.last_name
+            data['email'] = volunteer.email
+            data['gender'] = volunteer.gender
+            data['dob'] = volunteer.dob
+            data['address'] = volunteer.address
+            data['city'] = volunteer.city
+            data['state'] = volunteer.state
+            data['zip'] = volunteer.zip
+            data['skills'] = volunteer.skills
+            data['link'] = volunteer.link
             return Response(data)
         data['response'] = "Wrong parameters."
         return Response(data)

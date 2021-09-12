@@ -1,10 +1,18 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Account, Log, Event
+from .models import Account, Log, Event, Volunteer
 
 class AccountAdmin(UserAdmin):
-	list_display = ('id', 'email','username', 'first_name', 'last_name', 'role', 'is_admin','is_staff')
+	list_display = ('id', 'email','username', 'role', 'is_admin','is_staff')
 	search_fields = ('email','username', 'first_name', 'last_name')
+
+	filter_horizontal = ()
+	list_filter = ()
+	fieldsets = ()
+
+class VolunteerAdmin(admin.ModelAdmin):
+	list_display = ('email', 'first_name', 'last_name', 'gender', 'dob', 'address', 'city', 'state', 'zip', 'skills', 'link')
+	search_fields = ('first_name', 'last_name', 'email', 'address', 'city', 'state', 'zip', 'skills')
 
 	filter_horizontal = ()
 	list_filter = ()
@@ -43,4 +51,5 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Log, LogAdmin)
 admin.site.register(Event, EventAdmin)
+admin.site.register(Volunteer, VolunteerAdmin)
 

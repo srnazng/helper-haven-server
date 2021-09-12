@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import Account, Log, Event
+from .models import Account, Log, Event, Volunteer
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'email', 'role', 'username', 'password', 'password2']
+        fields = ['id', 'email', 'role', 'username', 'password', 'password2']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -14,8 +14,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def save(self):
         account = Account(
             username=self.validated_data['email'],
-            first_name=self.validated_data['first_name'],
-            last_name=self.validated_data['last_name'],
             email=self.validated_data['email'],
             role=self.validated_data['role'],
         )
@@ -32,8 +30,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Log
-        fields = ['user_email', 'event_name', 'role', 'hours', 'comments']
-    
+        fields = ['id', 'user_email', 'event_name', 'role', 'hours', 'comments']
+
+class VolunteerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Volunteer
+        fields = ['email', 'first_name', 'last_name', 'gender', 'dob', 'address', 'city', 'state', 'zip', 'skills', 'link']
+
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
