@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import RegisterView, LogView, EventView, AccountView, VolunteerView
+from core.views import RegisterView, LogView, EventView, AccountView, VolunteerView, OrganizationView
 from rest_framework.authtoken.views import obtain_auth_token
 from core import views
 
@@ -31,5 +31,7 @@ urlpatterns = [
     path('edit-account/<str:user_email>/', AccountView.as_view(), name='account'),
     path('volunteer/<str:user_email>/', VolunteerView.profile, name='volunteer'),
     path('edit-volunteer/<str:user_email>/', VolunteerView.as_view(), name='volunteer'),
+    path('organization/<str:org_email>/', OrganizationView.profile, name='organization'),
+    path('edit-organization/<str:org_email>/', OrganizationView.as_view(), name='organization'),
     path('events/', EventView.as_view(), name='events')
 ]

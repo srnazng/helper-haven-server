@@ -102,3 +102,15 @@ class Volunteer(models.Model):
 	zip = models.CharField(max_length=255, default="", blank=True)
 	skills = models.CharField(max_length=1000, default="", blank=True)
 	link = models.URLField(max_length=255, default="", blank=True)
+
+class Organization(models.Model):
+	email = models.CharField(max_length=255, default="", blank=True)
+	name = models.CharField(max_length=255, default="", blank=True)
+	description = models.CharField(max_length=1000, default="", blank=True)
+	phone = models.CharField(max_length=255, default="", blank=True)
+	address = models.CharField(max_length=255, default="", blank=True)
+	city = models.CharField(max_length=255, default="", blank=True)
+	state = models.CharField(max_length=255, default="", blank=True)
+	zip = models.CharField(max_length=255, default="", blank=True)
+	category = models.CharField(max_length=255, default="", blank=True)
+	link = models.URLField(max_length=255, default="", blank=True)

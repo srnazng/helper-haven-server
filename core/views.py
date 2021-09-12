@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action, api_view
-from .serializers import RegistrationSerializer, LogSerializer, EventSerializer, VolunteerSerializer
-from .models import Account, Log, Event, Volunteer
+from .serializers import RegistrationSerializer, LogSerializer, EventSerializer, VolunteerSerializer, OrganizationSerializer
+from .models import Account, Log, Event, Volunteer, Organization
 from rest_framework.authtoken.models import Token
 from django.db.models import F, Sum
 
@@ -21,12 +21,19 @@ class RegisterView(APIView):
             data['email'] = account.email
             data['token'] = Token.objects.get(user=account).key
 
-            if account.role == "VOLUNTEER":
+            if account.role == "ORGANIZATION":
+                body = {}
+                body['email'] = account.email
+                organization_serializer = OrganizationSerializer(data=body)
+                if organization_serializer.is_valid():
+                    organization_serializer.save()
+            else:
                 body = {}
                 body['email'] = account.email
                 volunteer_serializer = VolunteerSerializer(data=body)
                 if volunteer_serializer.is_valid():
                     volunteer_serializer.save()
+
             return Response(data)
         return Response(account_serializer.errors)
 
@@ -102,6 +109,48 @@ class VolunteerView(APIView):
         data['response'] = "Wrong parameters."
         return Response(data)
 
+class OrganizationView(APIView):
+    @api_view(('GET', 'PATCH'))
+    def profile(request, org_email):
+        qs = Organization.objects.filter(email = org_email)
+        data = {}
+        if len(qs) > 0:
+            org = qs[0]
+            data['email'] = org.email
+            data['name'] = org.name
+            data['description'] = org.description
+            data['phone'] = org.phone
+            data['address'] = org.address
+            data['city'] = org.city
+            data['state'] = org.state
+            data['zip'] = org.zip
+            data['category'] = org.category
+            data['link'] = org.link
+            return Response(data)
+        else:
+            data['response'] = "Failed to fetch organization profile."
+            return Response(data)
+
+    def patch(self, request, org_email):
+        org = Organization.objects.get(email=org_email)
+        serializer = OrganizationSerializer(org, data=request.data, partial=True)
+
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['email'] = org.email
+            data['name'] = org.name
+            data['description'] = org.description
+            data['phone'] = org.phone
+            data['address'] = org.address
+            data['city'] = org.city
+            data['state'] = org.state
+            data['zip'] = org.zip
+            data['category'] = org.category
+            data['link'] = org.link
+            return Response(data)
+        data['response'] = "Wrong parameters."
+        return Response(data)
 
 class LogView(APIView):
     def post(self, request, *args, **kwargs):

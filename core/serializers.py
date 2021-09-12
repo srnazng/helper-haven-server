@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Account, Log, Event, Volunteer
+from .models import Account, Log, Event, Volunteer, Organization
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -36,6 +36,11 @@ class VolunteerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Volunteer
         fields = ['email', 'first_name', 'last_name', 'gender', 'dob', 'address', 'city', 'state', 'zip', 'skills', 'link']
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = ['email', 'name', 'description', 'phone', 'address', 'city', 'state', 'zip', 'category', 'link']
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
