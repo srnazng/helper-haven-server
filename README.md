@@ -52,7 +52,7 @@ Returns token
 Returns token
 
 <h3>
-profile/< email >/
+account/< email >/
 </h3>
 
 [GET] 
@@ -69,7 +69,7 @@ Returns the profile of the user:
 ```
 
 <h3>
-edit-profile/< email >/
+edit-account/< email >/
 </h3>
 
 [PATCH] 
