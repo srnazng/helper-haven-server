@@ -156,6 +156,8 @@ Gets entry in the log by specifying user's email (currently case sensitive). Put
 ```
 {
     "event_name": "< name of event >",
+    "org_name": "< name of organization creating event >",
+    "org_email": "< email to identify organization >",
     "contact_name": "< name of point of contact for event >",
     "contact_email": "< email to contact for more info >",
     "contact_number": "< phone number to call for more info >",
@@ -167,7 +169,8 @@ Gets entry in the log by specifying user's email (currently case sensitive). Put
     "location": "< specify physical location or if event is virtual >",
     "link": "< link for more info / registration >",
     "active": "< boolean - true if students can continue to log hours for this event >",
-    "upcoming": "< boolean - true if volunteering registration still open for event >"
+    "upcoming": "< boolean - true if volunteering registration still open for event >",
+    "skills": "< prefered skills for volunteers to have >"
 }
 ```
 <br>

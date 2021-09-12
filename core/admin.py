@@ -37,6 +37,8 @@ class LogAdmin(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
 	list_display = ('id',
             'event_name', 
+			'org_name',
+			'org_email',
             'contact_name', 
             'contact_email', 
             'contact_number', 

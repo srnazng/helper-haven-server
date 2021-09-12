@@ -191,6 +191,8 @@ class EventView(APIView):
             data['response'] = "Successfully added new event."
             data['id'] = event.id
             data['event_name'] = event.event_name
+            data['org_name'] = event.org_name
+            data['org_email'] = event.org_name
             data['contact_name'] = event.contact_name
             data['contact_email'] = event.contact_email
             data['contact_number'] = event.contact_number
@@ -203,6 +205,7 @@ class EventView(APIView):
             data['active'] = event.active
             data['upcoming'] = event.upcoming
             data['link'] = event.link
+            data['skills'] = event.skills
             return Response(data)
         return Response(serializer.errors)
 

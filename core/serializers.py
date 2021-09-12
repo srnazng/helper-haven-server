@@ -48,6 +48,8 @@ class EventSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'event_name', 
+            'org_name',
+            'org_email',
             'contact_name', 
             'contact_email', 
             'contact_number', 
@@ -59,4 +61,5 @@ class EventSerializer(serializers.ModelSerializer):
             'location',
             'active',
             'upcoming',
-            'link' ]
+            'link',
+            'skills' ]
